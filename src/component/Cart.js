@@ -17,9 +17,9 @@ function Cart(props) {
                     <li>{item.amount}</li>
                     <li><button onClick={() => props.plusAmount(item.id)}>+</button></li>
                     <li><button onClick={() => props.deleteItem(item.id)}>Delete</button></li>
-                    <div >{props.value}</div>
                 </ul>
             )}
+            <div onClick={props.checkValue()}>{props.value}</div>
             
             {/* {props.cart.forEach(item => {
                             value += (item.price * item.amount)

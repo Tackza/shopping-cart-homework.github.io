@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import Cart from './component/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Header from './component/Header';
+import Carousel from './component/Carousel/CarouselProduct';
+import CarouselProduct from './component/Carousel/CarouselProduct';
+import { Card, CardDeck } from 'react-bootstrap';
+
 
 
 function App() {
   const [cart, setCart] = useState([])
-  const [amountTotal , setAmountTotal] = useState(0)
+  const [amountTotal, setAmountTotal] = useState(0)
   const [value, setValue] = useState(0)
   const [notebook, setNotebook] = useState(
     [
@@ -35,7 +40,7 @@ function App() {
         id: 4,
         image: "https://cf.shopee.co.th/file/dee416ef9d48c04bc02313f7efdc8f65",
         price: 29900,
-        name: "Asus",
+        name: "lenovo",
         amount: 1,
 
       }
@@ -85,7 +90,7 @@ function App() {
       id: 4,
       image: "https://cf.shopee.co.th/file/dee416ef9d48c04bc02313f7efdc8f65",
       price: 29900,
-      name: "Asus",
+      name: "Lenovo",
       amount: 1,
 
     }
@@ -163,17 +168,19 @@ function App() {
   const amountProduct = () => {
     const newArray = [...cart]
     const targetProduct = newArray.map(item => item.amount)
-    const countProduct = targetProduct.reduce((sum , number) => {
+    const countProduct = targetProduct.reduce((sum, number) => {
       return sum + number
-    },0)
+    }, 0)
     setAmountTotal(countProduct)
   }
 
 
   return (
-    <div class="container">
+    <div class="container-fluid">
       <div className="row">
         <div className="col">
+          <Header />
+          <CarouselProduct />
           <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a class="navbar-brand" type="button" onClick={firstAllProduct}>Tack IT</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -188,6 +195,7 @@ function App() {
                     <a class="dropdown-item" value="Msi" onClick={() => selectProduct("Msi")}>Msi</a>
                     <a class="dropdown-item" value="Acer" onClick={() => selectProduct("Acer")}>Acer</a>
                     <a class="dropdown-item" value="Hp" onClick={() => selectProduct("HP")}>Hp</a>
+                    <a class="dropdown-item" value="Lenovo" onClick={() => selectProduct("Lenovo")}>Lenovo</a>
                   </div>
                 </li>
 
@@ -204,7 +212,7 @@ function App() {
 
       <div className="row">
         <div className="col-lg-9 col-md-5">
-          <div className="row justify-content-around">
+          {/* <div className="row justify-content-around">
             {notebook.map(item =>
               <div className="col-lg-4">
                 <div class="card">
@@ -218,7 +226,25 @@ function App() {
                 <br />
               </div>
             )}
-          </div>
+          </div> */}
+
+          <CardDeck>
+            {notebook.map(item =>
+              <Card>
+                <Card.Img variant="top" src={item.image} />
+                <Card.Body>
+                  <Card.Title>{item.name}</Card.Title>
+                  <Card.Text>
+                    This is a wider card with supporting text below as a natural lead-in to
+                    additional content. This content is a little bit longer.
+      </Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                  <small className="text-muted">Last updated 3 mins ago</small>
+                </Card.Footer>
+              </Card>
+            )}
+          </CardDeck>
         </div>
         <Cart
           addCart={addCart}
@@ -228,7 +254,7 @@ function App() {
           minusAmount={minusAmount}
           deleteItem={deleteItem}
           checkValue={checkValue}
-          amountTotal = {amountTotal}
+          amountTotal={amountTotal}
           amountProduct={amountProduct}
         />
 

@@ -4,7 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './component/Header';
 import Carousel from './component/Carousel/CarouselProduct';
 import CarouselProduct from './component/Carousel/CarouselProduct';
-import { Card, CardDeck } from 'react-bootstrap';
+import { Button, Card, CardDeck, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import './App.css'
+import { MDBView } from 'mdbreact';
 
 
 
@@ -20,6 +22,7 @@ function App() {
         price: 20000,
         name: "Macbook",
         amount: 1,
+        detail: "APPLE MACBOOK PRO 13.3-INCH WITH TOUCH BAR: I5/2.4GHZ QC/8GB/512GB/SPACE"
 
       }, {
         id: 2,
@@ -27,6 +30,9 @@ function App() {
         price: 22000,
         name: "Asus",
         amount: 1,
+        detail: "Asus Notebook ROG Zephyrus G14 GA401II-HE105T White (A)",
+        discount: 30,
+
 
       }, {
         id: 3,
@@ -34,6 +40,9 @@ function App() {
         price: 23000,
         name: "HP",
         amount: 1,
+        detail: "HP Notebook Pavilion 15-cs3147TX Silver",
+        discount: 19,
+
 
       }
       , {
@@ -42,6 +51,9 @@ function App() {
         price: 29900,
         name: "lenovo",
         amount: 1,
+        detail: "Lenovo Notebook LEGION5 15ARH05-82B50045TA Black (A)",
+        discount: 10,
+
 
       }
       , {
@@ -50,6 +62,8 @@ function App() {
         price: 29900,
         name: "Msi",
         amount: 1,
+        detail: "MSI Notebook GL65 Leopard 10SCSR-058TH Black"
+
 
       }
       , {
@@ -58,6 +72,9 @@ function App() {
         price: 22990,
         name: "Acer",
         amount: 1,
+        detail: "Acer Notebook SWIFT SF514-54GT-5680 White",
+        discount: 25,
+
 
       }
     ]
@@ -181,7 +198,7 @@ function App() {
         <div className="col">
           <Header />
           <CarouselProduct />
-          <nav class="navbar navbar-expand-md navbar-light bg-light">
+          {/* <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a class="navbar-brand" type="button" onClick={firstAllProduct}>Tack IT</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
@@ -202,51 +219,85 @@ function App() {
               </ul>
 
             </div>
-          </nav>
+          </nav> */}
         </div>
       </div>
       <br />
 
 
+      {/* ================= Recomment ============== */}
+
+      <Row className="text-recommend">
+        <Col>Recomment</Col>
+      </Row>
 
 
-      <div className="row">
-        <div className="col-lg-9 col-md-5">
-          {/* <div className="row justify-content-around">
-            {notebook.map(item =>
-              <div className="col-lg-4">
-                <div class="card">
-                  <img src={item.image} class="card-img-top" alt="..." />
-                  <div className="card-body">
-                    <h5 className="card-title">{item.name}</h5>
-                    <p className="card-text">{Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(item.price)}</p>
-                    <button type="button" class="btn btn-success" onClick={() => addCart(item.id)}>Add to Cart</button>
-                  </div>
-                </div>
-                <br />
-              </div>
-            )}
-          </div> */}
+      {/* ================= Product card ============== */}
 
+      <Row className="justify-content-md-center">
+        <Col >
           <CardDeck>
             {notebook.map(item =>
-              <Card>
-                <Card.Img variant="top" src={item.image} />
-                <Card.Body>
-                  <Card.Title>{item.name}</Card.Title>
-                  <Card.Text>
-                    This is a wider card with supporting text below as a natural lead-in to
-                    additional content. This content is a little bit longer.
-      </Card.Text>
-                </Card.Body>
-                <Card.Footer>
-                  <small className="text-muted">Last updated 3 mins ago</small>
-                </Card.Footer>
-              </Card>
+              <Col md={3}>
+                <Card>
+                  <Card.Img variant="top" src={item.image} />
+                  <Card.Body className="card-body-product">
+                    <Row>
+                      <Col>
+                        <Card.Title>{item.name}</Card.Title>
+                      </Col>
+                      <Col>
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip >
+                              <img src="https://www.bnn.in.th/pub/media//amasty/webp/amasty/shopby/option_images/Kbank_2x_6.webp" />
+                            </Tooltip>
+                          }
+                        >
+                          <div class="text-right" variant="secondary">ผ่อนชำระ</div>
+                        </OverlayTrigger>
+                      </Col>
+                    </Row>
+
+                    <Row >
+                      <Col >
+                        <Card.Text className="detail-product">
+                          <b>{item.detail}</b>
+                        </Card.Text>
+                      </Col>
+                    </Row>
+                    <Row className="text-order-price">
+                      <Col className="order-now">
+                        Order Now
+                      </Col>
+                      <Col className="price">
+                        <div class="text-right">Price</div>
+                        <div class="text-right price-product">{Intl.NumberFormat().format(item.price)}.-</div>
+                        <div class="text-right" >
+                          <Row className="discount-product">
+                            <Col>
+                              {item.discount ? <s>{Intl.NumberFormat().format(Math.ceil(item.price + (item.price * (item.discount) / 100)))}</s> : item.discount}
+                            </Col>
+                            <Col>
+                              {item.discount ? `-${item.discount}%` : item.discount}
+                            </Col>
+                          </Row>
+                        </div>
+
+
+
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Button size="lg" variant="danger" block onClick={() => addCart(item.id)}>Add to Cart</Button>
+                  </Card.Footer>
+                </Card>
+              </Col>
             )}
           </CardDeck>
-        </div>
-        <Cart
+        </Col>
+        {/* <Cart
           addCart={addCart}
           cart={cart}
           value={value}
@@ -256,9 +307,9 @@ function App() {
           checkValue={checkValue}
           amountTotal={amountTotal}
           amountProduct={amountProduct}
-        />
+        /> */}
 
-      </div>
+      </Row>
     </div >
   );
 }
